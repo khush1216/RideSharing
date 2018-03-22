@@ -18,8 +18,8 @@ from math import radians, cos, sin, asin, sqrt
 class RideDetailClass:     
     #time window of 5 minutes
     
-    def getFirstRecordPickupTimeStamp(self,connObj):
-       query = "SELECT tpep_pickup_datetime FROM neworiginal_data limit 1;"
+    def getFirstRecordPickupTimeStamp(self,connObj,skippedRecords):
+       query = "SELECT tpep_pickup_datetime FROM neworiginal_data limit " + skippedRecords + ", 1";
        cursor = connObj.cursor();
        cursor.execute(query);
        record = cursor.fetchone()
@@ -30,7 +30,7 @@ class RideDetailClass:
         locationDict = dict() #pickup and dropoffs
         fareAmountDict = dict()
         dropoffTimeDict = dict()
-        starttime = self.getFirstRecordPickupTimeStamp(connObj).strftime("%Y-%m-%d %H:%M:%S")
+        starttime = self.getFirstRecordPickupTimeStamp(connObj,skippedRecOffset).strftime("%Y-%m-%d %H:%M:%S")
         query = "select * from neworiginal_data where TIMESTAMPDIFF(MINUTE," + "'" + starttime + "'" + ", tpep_pickup_datetime) < 2 order by tpep_pickup_datetime limit " + skippedRecOffset + "," + "11111111111111111111;"
         
         #queryCount = "select count(*) from neworiginal_data where TIMESTAMPDIFF(MINUTE," + "'" + starttime + "'" + ", tpep_pickup_datetime) < 1 order by tpep_pickup_datetime limit " + skippedRecOffset + "," + "11111111111111111111;"        
