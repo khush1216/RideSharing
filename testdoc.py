@@ -18,14 +18,14 @@ dbConnObj = dbConnection.DB_Connect()
 rideDetails = RideDetailsClass.RideDetailClass()
 con = dbConnObj.dbConnection()
 
-loc, fare, drop, offs = rideDetails.getRideDetails(con,'0')
+loc, fare, passCount, drop, offs = rideDetails.getRideDetails(con,'0')
 euclObj = EuclideanDistClass.EuclideanDistance(2)
-eucDistS, eucDistDest, nextPoolID,toShortPathSources, toShortPathDest = euclObj.getEuclideanDistanceDict(loc)
+eucDistS, eucDistDest, nextPoolID,toShortPathSources, toShortPathDest, individualTrips = euclObj.getEuclideanDistanceDict(loc,passCount)
 
+#print (toShortPathSources)
 
-d1TestSource = dict(itertools.islice(iter(toShortPathSources.items()),20))
-d1TestDest = dict(itertools.islice(iter(toShortPathDest.items()),20))
-
+d1TestSource = dict(itertools.islice(iter(toShortPathSources.items()),40))
+d1TestDest = dict(itertools.islice(iter(toShortPathDest.items()),40))
 
 convObj = ConversionShortPath.Conversion()
 sourceDetails,destDetails = convObj.getShortestPathDetailDict(d1TestSource,d1TestDest)

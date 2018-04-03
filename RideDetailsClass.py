@@ -30,6 +30,7 @@ class RideDetailClass:
         locationDict = dict() #pickup and dropoffs
         fareAmountDict = dict()
         dropoffTimeDict = dict()
+        passengerCount = dict()
         starttime = self.getFirstRecordPickupTimeStamp(connObj,skippedRecOffset).strftime("%Y-%m-%d %H:%M:%S")
         query = "select * from neworiginal_data where TIMESTAMPDIFF(MINUTE," + "'" + starttime + "'" + ", tpep_pickup_datetime) < 2 order by tpep_pickup_datetime limit " + skippedRecOffset + "," + "11111111111111111111;"
         
@@ -48,10 +49,11 @@ class RideDetailClass:
             locationDict[row[13]] = location
             fareAmountDict[row[13]] = row[12]
             dropoffTimeDict[row[13]] = row[2]
+            passengerCount[row[13]] = row[3]
             new_offset = new_offset+1
         
         
-        return locationDict,fareAmountDict, dropoffTimeDict,new_offset
+        return locationDict,fareAmountDict, passengerCount,dropoffTimeDict,new_offset
     
 class CalculateHaversine:
     

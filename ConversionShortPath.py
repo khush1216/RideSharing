@@ -25,10 +25,10 @@ class Conversion:
         shortPathDataDictDest = dict()        
         #get shortest path sources:
         for key,value in toShortPathSources.items():
-            lonS1=value[0]
-            latS1=value[1]
-            lonS2=value[2]
-            latS2=value[3]
+            lonS1=value[0][0]
+            latS1=value[0][1]
+            lonS2=value[0][2]
+            latS2=value[0][3]
             osrmURL = "http://localhost:5000/route/v1/driving/"+str(lonS1) +","+str(latS1)+";"+str(lonS2)+","+str(latS2)+"?overview=false";
             jsonRes = requests.get(osrmURL)
             #load data in a list of dictionaries
@@ -41,10 +41,10 @@ class Conversion:
             shortPathDataDictSource[key] = dataDictSource['routes'][0]['distance']
             
         for key,value in toShortPathDest.items():
-            lonD1=value[0]
-            latD1=value[1]
-            lonD2=value[2]
-            latD2=value[3]
+            lonD1=value[0][0]
+            latD1=value[0][1]
+            lonD2=value[0][2]
+            latD2=value[0][3]
             osrmURL = "http://localhost:5000/route/v1/driving/"+str(lonD1) +","+str(latD1)+";"+str(lonD2)+","+str(latD2)+"?overview=false";
             jsonRes = requests.get(osrmURL)
             dataDictDest = json.loads(jsonRes.text)

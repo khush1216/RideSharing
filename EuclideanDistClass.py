@@ -21,10 +21,11 @@ class EuclideanDistance:
     def __init__(self,minEuclideanDis):
         self.minEuc = minEuclideanDis
     
-    def getEuclideanDistanceDict(self,locationDictioary):
+    def getEuclideanDistanceDict(self,locationDictioary,passengerDict):
         
         nextPoolIds = set()
         usedPoolIds = set()
+        individualTrips = set()
         locationDict2 = locationDictioary.copy()
         euclideanDictSources = dict()
         euclideanDictDestinations = dict()
@@ -38,6 +39,11 @@ class EuclideanDistance:
             lon1Dest = value[2]
             lat1Dest = value[3]
             trip_id1 = key
+            
+            #check if the trip is an independent trip
+            if(passengerDict[trip_id1] == 3):
+                individualTrips.add(trip_id1)                
+            
             del locationDict2[key] 
             for key2,value2 in locationDict2.items():
                 lon2 = value2[0]
@@ -45,6 +51,12 @@ class EuclideanDistance:
                 lon2Dest = value2[2]
                 lat2Dest = value2[3]
                 trip_id2 = key2
+                
+                #trips will not merge if both have passenger count as 2
+                
+                if(passengerDict[trip_id1] ==2 and passengerDict[trip_id2] == 2):
+                    continue    
+                
                 haversineSource = RideDetailsClass.CalculateHaversine(float(lon1),float(lat1),float(lon2),float(lat2))
                 eucDist = haversineSource.haversine()
                 haversineDest = RideDetailsClass.CalculateHaversine(float(lon1Dest),float(lat1Dest),float(lon2Dest),float(lat2Dest))
@@ -53,9 +65,19 @@ class EuclideanDistance:
                 #################store to db ???
                 #check if this is the condition in the algorithm?????????????
                 if(eucDist < self.minEuc and eucDistDest < self.minEuc):
+                    
+                    #list of lists - list1 stores Lat,Long. List2 stores passenger count respective to combined trips
+                    valueListSources = list()
+                    valueListDest = list()
+                    
+                    #list of lat,long
                     listCoordSources = list()
                     listCoordDest = list()
                     
+                    #list of passenger counts
+                    listPassCount = list()
+                    
+                    #store lat,long
                     listCoordSources.append(lon1)
                     listCoordSources.append(lat1)
                     listCoordSources.append(lon2)
@@ -65,15 +87,25 @@ class EuclideanDistance:
                     listCoordDest.append(lat1Dest)
                     listCoordDest.append(lon2Dest)
                     listCoordDest.append(lat2Dest)
-
+                    
+                    #store passenger count
+                    listPassCount.append(passengerDict[trip_id1])
+                    listPassCount.append(passengerDict[trip_id2])
+                    
+                    #append all lists to value list
+                    valueListSources.append(listCoordSources)
+                    valueListSources.append(listPassCount)
+                    valueListDest.append(listCoordDest)
+                    valueListDest.append(listPassCount)
+                    
                     usedPoolIds.add(trip_id1)
                     usedPoolIds.add(trip_id2)
                     eucKey = str(trip_id1) + "," + str(trip_id2) 
                     euclideanDictSources[eucKey] = eucDist
                     euclideanDictDestinations[eucKey] = eucDistDest
                     
-                    toShortPathSources[eucKey] = listCoordSources
-                    toShortPathDest[eucKey] = listCoordDest
+                    toShortPathSources[eucKey] = valueListSources
+                    toShortPathDest[eucKey] = valueListDest
                
                 #send the trips to the next pool
                 else:
@@ -83,7 +115,7 @@ class EuclideanDistance:
                         nextPoolIds.add(trip_id2)
                                     
         #print (len(euclideanDict))
-        return euclideanDictSources,euclideanDictDestinations,nextPoolIds,toShortPathSources,toShortPathDest
+        return euclideanDictSources,euclideanDictDestinations,nextPoolIds,toShortPathSources,toShortPathDest,individualTrips
  
 #test
 #euclObj = EuclideanDistance(2)
