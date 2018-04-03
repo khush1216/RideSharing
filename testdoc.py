@@ -8,7 +8,7 @@ import dbConnection
 import RideDetailsClass
 import EuclideanDistClass
 import ConversionShortPath
-
+import CombineRides
 import itertools
 
 
@@ -22,7 +22,8 @@ loc, fare, passCount, drop, offs = rideDetails.getRideDetails(con,'0')
 euclObj = EuclideanDistClass.EuclideanDistance(2)
 eucDistS, eucDistDest, nextPoolID,toShortPathSources, toShortPathDest, individualTrips = euclObj.getEuclideanDistanceDict(loc,passCount)
 
-#print (toShortPathSources)
+#print (toShortPathSources['107,145'])
+#print (toShortPathDest['107,145'])
 
 d1TestSource = dict(itertools.islice(iter(toShortPathSources.items()),40))
 d1TestDest = dict(itertools.islice(iter(toShortPathDest.items()),40))
@@ -30,5 +31,10 @@ d1TestDest = dict(itertools.islice(iter(toShortPathDest.items()),40))
 convObj = ConversionShortPath.Conversion()
 sourceDetails,destDetails = convObj.getShortestPathDetailDict(d1TestSource,d1TestDest)
 
-print (sourceDetails)
-print (destDetails)
+combineObj = CombineRides.CombineRides()
+sortedMap = combineObj.mergeSourceDestDist(sourceDetails,destDetails)
+
+print (type(sortedMap[0]))
+
+#print (sourceDetails['1,7'])
+#print (destDetails['1,7'])
