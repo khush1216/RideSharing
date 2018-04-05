@@ -25,8 +25,11 @@ eucDistS, eucDistDest, nextPoolID,toShortPathSources, toShortPathDest, individua
 #print (toShortPathSources['107,145'])
 #print (toShortPathDest['107,145'])
 
-d1TestSource = dict(itertools.islice(iter(toShortPathSources.items()),40))
-d1TestDest = dict(itertools.islice(iter(toShortPathDest.items()),40))
+d1TestSource = dict(itertools.islice(iter(toShortPathSources.items()),80))
+d1TestDest = dict(itertools.islice(iter(toShortPathDest.items()),80))
+
+#print (d1TestSource)
+#print (d1TestDest)
 
 convObj = ConversionShortPath.Conversion()
 sourceDetails,destDetails = convObj.getShortestPathDetailDict(d1TestSource,d1TestDest)
@@ -34,7 +37,7 @@ sourceDetails,destDetails = convObj.getShortestPathDetailDict(d1TestSource,d1Tes
 combineObj = CombineRides.CombineRides()
 sortedMap = combineObj.mergeSourceDestDist(sourceDetails,destDetails)
 
-print (type(sortedMap[0]))
-
+print (sortedMap)
+#combineObj.convertToList(sortedMap)
 #print (sourceDetails['1,7'])
-#print (destDetails['1,7'])
+#print (destDetails['1,7'])"""

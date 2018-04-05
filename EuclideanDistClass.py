@@ -42,7 +42,11 @@ class EuclideanDistance:
             
             #check if the trip is an independent trip
             if(passengerDict[trip_id1] == 3):
-                individualTrips.add(trip_id1)                
+                individualTrips.add(trip_id1)
+                del locationDict2[key]
+                continue                
+            
+            #next pool ids check************************
             
             del locationDict2[key] 
             for key2,value2 in locationDict2.items():
@@ -98,6 +102,12 @@ class EuclideanDistance:
                     valueListDest.append(listCoordDest)
                     valueListDest.append(listPassCount)
                     
+                    if(trip_id1 in nextPoolIds):
+                        nextPoolIds.remove(trip_id1)
+                    
+                    if(trip_id2 in nextPoolIds):
+                        nextPoolIds.remove(trip_id2)
+            
                     usedPoolIds.add(trip_id1)
                     usedPoolIds.add(trip_id2)
                     eucKey = str(trip_id1) + "," + str(trip_id2) 

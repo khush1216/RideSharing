@@ -23,6 +23,38 @@ class CombineRides:
         
         sortedList = sorted(combinedDistDict.items(), key=operator.itemgetter(1))
         return sortedList
+    
+    def convertToList(self,sortedTripTuples):
+        finalMergedTripList = list()
+        for x in range(0,len(sortedTripTuples)-1):
+            miniMergedList = list()
+            trip1,trip2 = (sortedTripTuples[x][0]).split(",")
+            miniMergedList.append(int(trip1))
+            miniMergedList.append(int(trip2))
+            finalMergedTripList.append(miniMergedList)
+            
+        print (finalMergedTripList)
+    
+    """def finalMergedRides(self, finalMergedTripList):
+        
+        mergedRidesList = list()
+        copyfinalMergedTripList = finalMergedTripList[:]
+        
+        for miniMergedList in finalMergedTripList:
+            mergedRidesList.append(miniMergedList)
+            trip1 = miniMergedList[0]
+            trip2 = miniMergedList[1]
+            copyfinalMergedTripList.remove(miniMergedList)
+            
+            for nextMiniMergedList in copyfinalMergedTripList:
+                if trip1 in nextMiniMergedList or trip """
+            
+            
+            
+            
+            
+            
+            
             
             
         
