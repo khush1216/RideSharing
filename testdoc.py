@@ -21,9 +21,10 @@ dbConnObj = dbConnection.DB_Connect()
 rideDetails = RideDetailsClass.RideDetailClass()
 con = dbConnObj.dbConnection()
 
-#skippedRecordOffset = 0;
-for skippedRecoffset in range(0,9725912):
-    loc, fare, passCount, drop, offs, originalDistDict = rideDetails.getRideDetails(con,str(skippedRecoffset))
+skippedRecordOffset = 0;
+while (skippedRecordOffset != 9725912):
+    loc, fare, passCount, drop, offs, originalDistDict = rideDetails.getRideDetails(con,str(skippedRecordOffset))
+    skippedRecordOffset = offs
     
     euclObj = EuclideanDistClass.EuclideanDistance(2)
     eucDistS, eucDistDest, nextPoolID,toShortPathSources, toShortPathDest, individualTrips = euclObj.getEuclideanDistanceDict(loc,passCount)
@@ -32,8 +33,8 @@ for skippedRecoffset in range(0,9725912):
     #print (toShortPathDest['107,145'])
 
 
-    d1TestSource = dict(itertools.islice(iter(toShortPathSources.items()),80))
-    d1TestDest = dict(itertools.islice(iter(toShortPathDest.items()),80))
+    d1TestSource = dict(itertools.islice(iter(toShortPathSources.items()),30))
+    d1TestDest = dict(itertools.islice(iter(toShortPathDest.items()),30))
 
     #print (originalDistDict)
     #print (d1TestSource)
@@ -41,16 +42,19 @@ for skippedRecoffset in range(0,9725912):
 
     distSavedObj = DistSaved.DistSaved()
     newListDistSaved = distSavedObj.diffSavedDistance(d1TestSource,d1TestDest,originalDistDict)
-
+    
     convertToListObj = CombineRides.CombineRides()
     savedDistoList = convertToListObj.convertToList(newListDistSaved)
-
-    print (savedDistoList)
 
     maxMatchingObj= maxMatching.MaxMatching()
     mergedRides = maxMatchingObj.getMergedRides(savedDistoList)
 
-    print (mergedRides)
+    mergedRidesWithSavedDist = maxMatchingObj.getMergedRidesWithSavedDist(mergedRides,newListDistSaved)
+    print (mergedRidesWithSavedDist)
+            
+            
+
+#    print (mergedRides)
 
 
 

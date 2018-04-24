@@ -12,8 +12,21 @@ class MaxMatching:
         mergeableTripGraph= nx.Graph();
         mergeableTripGraph.add_weighted_edges_from(combinedRideWithDist)
         matching_dictionary = nx.max_weight_matching(mergeableTripGraph, maxcardinality=True)
+        
         #print(matching_dictionary) 
         return matching_dictionary
+    
+    def getMergedRidesWithSavedDist(self,mergedRides,distSavedList):
+        mergedRidesWithSavedDist = dict()
+        
+        for item in mergedRides:
+            trip = str(item[0]) + "," + str(item[1])
+            dist = distSavedList.get(trip)
+            mergedRidesWithSavedDist[trip] = dist
+
+        return mergedRidesWithSavedDist
+    
+    
 
 #g = GraphMatching::Graph::WeightedGraph[
 #  [1, 2, 10],
