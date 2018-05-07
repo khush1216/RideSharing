@@ -19,7 +19,7 @@ class RideDetailClass:
     #time window of 5 minutes
     
     def getFirstRecordPickupTimeStamp(self,connObj,skippedRecords):
-       query = "SELECT tpep_pickup_datetime FROM neworiginal_data limit " + skippedRecords + ", 1";
+       query = "SELECT tpep_pickup_datetime FROM neworiginal_data order by tpep_pickup_datetime limit " + skippedRecords + ", 1;"
        cursor = connObj.cursor();
        cursor.execute(query);
        record = cursor.fetchone()

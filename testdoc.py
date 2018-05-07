@@ -24,8 +24,9 @@ con = dbConnObj.dbConnection()
 skippedRecordOffset = 0;
 while (skippedRecordOffset != 9725912):
     loc, fare, passCount, drop, offs, originalDistDict = rideDetails.getRideDetails(con,str(skippedRecordOffset))
-    skippedRecordOffset = offs
+    skippedRecordOffset = skippedRecordOffset + offs
     
+    print (skippedRecordOffset)
     euclObj = EuclideanDistClass.EuclideanDistance(2)
     eucDistS, eucDistDest, nextPoolID,toShortPathSources, toShortPathDest, individualTrips = euclObj.getEuclideanDistanceDict(loc,passCount)
 
@@ -33,8 +34,8 @@ while (skippedRecordOffset != 9725912):
     #print (toShortPathDest['107,145'])
 
 
-    d1TestSource = dict(itertools.islice(iter(toShortPathSources.items()),30))
-    d1TestDest = dict(itertools.islice(iter(toShortPathDest.items()),30))
+    d1TestSource = dict(itertools.islice(iter(toShortPathSources.items()),100))
+    d1TestDest = dict(itertools.islice(iter(toShortPathDest.items()),100))
 
     #print (originalDistDict)
     #print (d1TestSource)

@@ -23,7 +23,6 @@ class MaxMatching:
             trip = str(item[0]) + "," + str(item[1])
             dist = distSavedList.get(trip)
             mergedRidesWithSavedDist[trip] = dist
-
         return mergedRidesWithSavedDist
     
     
