@@ -31,4 +31,5 @@ arranged according to the columns mentioned in RideDetailsClass.py
     add Trip_ids and re-arrange the column data types according to the data type required - for example, STRING to TIMESTAMP/DATETIME,
     latitude, longitude geometry to DOUBLE, etc.
     
-4. The user will need to download new-york-latest.osrm data file to run OSRM on the local machine.
+4. The user will need to download new-york-latest.osrm data file to run OSRM on the local machine. Once installed, this can be run using
+    osrm-routed new-york-latest.osrm command on the command line.
